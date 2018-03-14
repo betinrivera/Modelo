@@ -2,10 +2,16 @@
 #include "Modelo.h"
 
 Modelo::Modelo() {
-
+	transformaciones = mat4(1.0f);
 }
 
 void Modelo::inicializarVertexArray(GLuint posicionID, GLuint colorID, GLuint transformacionesID) {
+
+	this->transformacionesID = transformacionesID;
+
+
+
+
 	//Crear un vertex array
 	glGenVertexArrays(1, &vertexArrayID);
 	glBindVertexArray(vertexArrayID);
@@ -37,7 +43,7 @@ void Modelo::inicializarVertexArray(GLuint posicionID, GLuint colorID, GLuint tr
 void Modelo::dibujar(GLenum modoDibujo) {
 	shader->enlazarShader();
 	glBindVertexArray(vertexArrayID);
-	glUniformMatrix4fv();
+	glUniformMatrix4fv(transformacionesID, 1, GL_FALSE, &transformaciones[0][0]);
 
 	glDrawArrays(modoDibujo, 0, vertices.size());
 	glBindVertexArray(0);

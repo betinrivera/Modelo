@@ -2,7 +2,7 @@
 //La primera linea es la version
 
 //Atributos de entrada
-layout(location = 0) in vec3 posicion;
+layout(location = 0) in vec4 posicion;
 in vec4 color;
 uniform mat4 transformaciones;
 
