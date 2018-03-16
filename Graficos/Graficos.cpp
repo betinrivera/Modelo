@@ -16,6 +16,7 @@
 #include "Vertice.h"
 #include "Shader.h"
 #include "Modelo.h"
+#include "Nave.h"
 
 using namespace std;
 
@@ -27,7 +28,7 @@ GLuint transformacionesID;
 
 
 Modelo *figura;
-Modelo *figura2;
+Nave *nave;
 
 Shader *shader;
 
@@ -36,43 +37,28 @@ GLFWwindow *window;
 
 void actualizar() { 
 	int estadoDerecha = glfwGetKey(window, GLFW_KEY_RIGHT);
-		if (estadoDerecha == GLFW_PRESS)
-		{
-			figura2->transformaciones = 
-				translate(figura2->transformaciones, vec3(0.001f, 0.0f, 0.0f));
-		}
-
+	if (estadoDerecha == GLFW_PRESS)
+	{
+		nave->rotarNave(1);
+	}
 	int estadoIzquierda = glfwGetKey(window, GLFW_KEY_LEFT);
-		if (estadoIzquierda == GLFW_PRESS)
-		{
-			figura2->transformaciones =
-				translate(figura2->transformaciones, vec3(-0.001f, 0.0f, 0.0f));
-		}
-		int escalarGrande = glfwGetKey(window, GLFW_KEY_ESCAPE);
-		if (escalarGrande == GLFW_PRESS)
-		{
-			figura2->transformaciones =
-				scale(figura2->transformaciones, vec3(1.001f, 1.001f, 1.001f));
-		}
-		int escalarPequeno = glfwGetKey(window, GLFW_KEY_ENTER);
-		if (escalarPequeno == GLFW_PRESS)
-		{
-			figura2->transformaciones =
-				scale(figura2->transformaciones, vec3(-1.001f, -1.001f, -1.001f));
-		}
-		int rotarder = glfwGetKey(window, GLFW_KEY_1);
-		if (rotarder == GLFW_PRESS)
-		{
-			figura2->transformaciones =
-				rotate(figura2->transformaciones,0.05f, vec3(0.0f, 0.0f, 1.0f));
-		}
+	if (estadoIzquierda == GLFW_PRESS)
+	{
+		nave->rotarNave(0);
+	}
+	int estadoArriba = glfwGetKey(window, GLFW_KEY_UP);
+	if (estadoArriba == GLFW_PRESS)
+	{
+		nave->moverNave();
+	}
+
 }
 
 void dibujar() {
 
 
-	figura->dibujar(GL_POLYGON);
-	figura2->dibujar(GL_POLYGON);
+	//figura->dibujar(GL_POLYGON);
+	nave->dibujar(GL_POLYGON);
 }
 
 void inicializarFigura() {
@@ -91,19 +77,16 @@ void inicializarFigura() {
 
 void inicializarCuadrado()
 {
-	figura2 = new Modelo();
+	nave = new Nave();
 	Vertice ve1 =
-	{ vec4(-0.9f,0.4f,0.0f, 1.0f), vec4(0.0f,0.0f,0.0f,0.0f) };
+	{ vec4(-0.1f,-0.1f,0.0f, 1.0f), vec4(0.0f,0.0f,0.0f,0.0f) };
 	Vertice ve2 =
-	{ vec4(0.0f,0.4f,0.0f, 1.0f), vec4(0.0f,0.0f,0.0f,0.0f) };
+	{ vec4(0.0f,0.1f,0.0f, 1.0f), vec4(0.0f,0.0f,0.0f,0.0f) };
 	Vertice ve3 =
-	{ vec4(0.0f,-0.4f,0.0f, 1.0f), vec4(0.0f,0.0f,0.0f,0.0f) };
-	Vertice ve4 =
-	{ vec4(-0.9f,-0.4f,0.0f, 1.0f), vec4(0.0f,0.0f,0.0f,0.0f) };
-	figura2->vertices.push_back(ve1);
-	figura2->vertices.push_back(ve2);
-	figura2->vertices.push_back(ve3);
-	figura2->vertices.push_back(ve4);
+	{ vec4(0.1f,-0.1f,0.0f, 1.0f), vec4(0.0f,0.0f,0.0f,0.0f) };
+	nave->vertices.push_back(ve1);
+	nave->vertices.push_back(ve2);
+	nave->vertices.push_back(ve3);
 
 }
 
@@ -173,8 +156,8 @@ int main()
 	figura->shader = shader;
 	figura->inicializarVertexArray(posicionID, colorID, transformacionesID);
 
-	figura2->shader = shader;
-	figura2->inicializarVertexArray(posicionID, colorID, transformacionesID);
+	nave->shader = shader;
+	nave->inicializarVertexArray(posicionID, colorID, transformacionesID);
 
 
 
